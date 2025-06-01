@@ -201,7 +201,7 @@ class _TaskHomePageState extends State<TaskHomePage> {
                 children: [
                   TextField(
                     controller: _controller,
-                    cursorColor: Colors.orangeAccent,
+                    cursorColor: Colors.tealAccent,
                     style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       labelText: 'Task',
@@ -210,14 +210,14 @@ class _TaskHomePageState extends State<TaskHomePage> {
                         borderSide: BorderSide(color: Colors.white70),
                       ),
                       focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.orange.shade200),
+                        borderSide: BorderSide(color: Colors.teal.shade200),
                       ),
                     ),
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange.shade200,
+                      backgroundColor: Colors.teal.shade200,
                       foregroundColor: Colors.blueGrey[900],
                     ),
                     onPressed: () async {
@@ -230,7 +230,7 @@ class _TaskHomePageState extends State<TaskHomePage> {
                           return Theme(
                             data: ThemeData.dark().copyWith(
                               colorScheme: ColorScheme.dark(
-                                primary: Colors.orange.shade200,
+                                primary: Colors.teal.shade200,
                                 onPrimary: Colors.black,
                                 surface: Colors.blueGrey[800]!,
                               ),
@@ -258,11 +258,11 @@ class _TaskHomePageState extends State<TaskHomePage> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text("Cancel", style: TextStyle(color: Colors.orange[200])),
+                  child: Text("Cancel", style: TextStyle(color: Colors.teal[200])),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange[200],
+                    backgroundColor: Colors.teal[200],
                     foregroundColor: Colors.blueGrey[900],
                   ),
                   onPressed: () {
@@ -339,15 +339,15 @@ class _TaskHomePageState extends State<TaskHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey[900],
+      backgroundColor: Colors.teal[100],
       appBar: AppBar(
         backgroundColor: Colors.blueGrey[700],
-        title: Text('My Tasks', style: TextStyle(color: Colors.orange[100]),
+        title: Text('My Tasks', style: TextStyle(color: Colors.teal[100]),
         ),
-        iconTheme: IconThemeData(color: Colors.orange[100]),
+        iconTheme: IconThemeData(color: Colors.teal[100]),
       ),
       drawer: Drawer(
-        backgroundColor: Colors.orange[100], // 1. Set drawer background color
+        backgroundColor: Colors.teal[100], // 1. Set drawer background color
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -357,7 +357,7 @@ class _TaskHomePageState extends State<TaskHomePage> {
               ),
               child: Text(
                 'Menu',
-                style: TextStyle(color: Colors.orange[100], fontSize: 24),
+                style: TextStyle(color: Colors.teal[100], fontSize: 24),
               ),
             ),
             ListTile(
@@ -374,58 +374,66 @@ class _TaskHomePageState extends State<TaskHomePage> {
         ),
       ),
 
-      body: _tasks.isEmpty
+      body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/bg.png'), // Your background image
+              fit: BoxFit.cover, // Cover the entire screen
+            ),
+          ),
+          child: _tasks.isEmpty
           ? const Center(child: Text("No tasks yet. Add one!"))
           : ListView.builder(
-        itemCount: _tasks.length,
-        itemBuilder: (context, index) {
-          final task = _tasks[index];
-          return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.orange.shade200),
-              borderRadius: BorderRadius.circular(15),
-              color: Colors.transparent, // Inside matches the background
-            ),
-            child: ListTile(
-              leading: Theme(
-                data: Theme.of(context).copyWith(
-                  unselectedWidgetColor: Colors.orange[200], // Checkbox border color when unchecked
-                ),
-                child: Checkbox(
-                  value: task.isDone,
-                  onChanged: (value) => _toggleDone(task),
-                  activeColor: Colors.orange[200], // Fill color when checked
-                  checkColor: Colors.blueGrey[900], // Tick color
-                ),
-              ),
-              title: Text(
-                task.title,
-                style: TextStyle(
-                  color: Colors.white,
-                  decoration: task.isDone ? TextDecoration.lineThrough : null,
-                  decorationColor: Colors.orange[200], // Strikethrough color
-                  decorationThickness: 2, // Optional: makes the line bolder
-                ),
-              ),
-              subtitle: Text(
-                "Deadline: ${DateFormat('dd MMM yyyy').format(task.deadline)}",
-                style: const TextStyle(color: Colors.white70),
-              ),
-              trailing: IconButton(
-                icon: Icon(Icons.delete, color: Colors.red[300]),
-                onPressed: () => _deleteTask(task),
-              ),
-            ),
+              itemCount: _tasks.length,
+              itemBuilder: (context, index) {
+                final task = _tasks[index];
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.circular(15),
+                    color: Color.fromRGBO(0, 0, 0, 0.3), // Inside matches the background
+                  ),
+                  child: ListTile(
+                    leading: Theme(
+                      data: Theme.of(context).copyWith(
+                        unselectedWidgetColor: Colors.teal[200], // Checkbox border color when unchecked
+                      ),
+                      child: Checkbox(
+                        value: task.isDone,
+                        onChanged: (value) => _toggleDone(task),
+                        activeColor: Colors.teal[200], // Fill color when checked
+                        checkColor: Colors.blueGrey[900], // Tick color
+                      ),
+                    ),
+                    title: Text(
+                      task.title,
+                      style: TextStyle(
+                        color: Colors.white,
+                        decoration: task.isDone ? TextDecoration.lineThrough : null,
+                        decorationColor: Colors.teal[200], // Strikethrough color
+                        decorationThickness: 2, // Optional: makes the line bolder
+                      ),
+                    ),
+                    subtitle: Text(
+                      "Deadline: ${DateFormat('dd MMM yyyy').format(task.deadline)}",
+                      style: const TextStyle(color: Colors.white70),
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red[300]),
+                      onPressed: () => _deleteTask(task),
+                    ),
+                  ),
 
-          );
+                );
 
-        },
+              },
+          ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addTask,
         foregroundColor: Colors.blueGrey[900],
-        backgroundColor: Colors.orange[200],
+        backgroundColor: Colors.teal[200],
         child: const Icon(Icons.add),
       ),
     );
@@ -480,7 +488,7 @@ class _SubjectPageState extends State<SubjectPage> {
           ),
           content: TextField(
             controller: controller,
-            cursorColor: Colors.orangeAccent,
+            cursorColor: Colors.tealAccent,
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
               hintText: 'Enter subject name',
@@ -489,7 +497,7 @@ class _SubjectPageState extends State<SubjectPage> {
                 borderSide: BorderSide(color: Colors.white70),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.orangeAccent),
+                borderSide: BorderSide(color: Colors.tealAccent),
               ),
             ),
           ),
@@ -507,7 +515,7 @@ class _SubjectPageState extends State<SubjectPage> {
               },
               child: Text(
                 'Add',
-                style: TextStyle(color: Colors.orange.shade200),
+                style: TextStyle(color: Colors.teal.shade200),
               ),
             ),
           ],
@@ -592,11 +600,11 @@ class _SubjectPageState extends State<SubjectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey[900],
+      backgroundColor: Colors.teal[50],
       appBar: AppBar(
         backgroundColor: Colors.blueGrey[700],
-        title: Text('Subjects', style: TextStyle(color: Colors.orange[100])),
-        iconTheme: IconThemeData(color: Colors.orange[100]),
+        title: Text('Subjects', style: TextStyle(color: Colors.teal[100])),
+        iconTheme: IconThemeData(color: Colors.teal[100]),
         actions: [
           if (isEditing)
             IconButton(
@@ -612,10 +620,10 @@ class _SubjectPageState extends State<SubjectPage> {
         ],
       ),
       body: GridView.builder(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(30.0),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: 16.0,
+          crossAxisSpacing: 30.0,
           mainAxisSpacing: 16.0,
         ),
         itemCount: subjects.length,
@@ -645,7 +653,7 @@ class _SubjectPageState extends State<SubjectPage> {
             },
             child: Container(
               decoration: BoxDecoration(
-                color: isSelected ? Colors.red[300] : Colors.orange[200],
+                color: isSelected ? Colors.red[300] : Colors.blueGrey[700],
                 borderRadius: BorderRadius.circular(16.0),
                 border: isSelected
                     ? Border.all(color: Colors.redAccent, width: 2)
@@ -655,7 +663,7 @@ class _SubjectPageState extends State<SubjectPage> {
                 child: Text(
                   subjects[index].name,
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 18.0,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                   ),
@@ -670,7 +678,7 @@ class _SubjectPageState extends State<SubjectPage> {
           : FloatingActionButton(
         onPressed: addSubject,
         foregroundColor: Colors.blueGrey[900],
-        backgroundColor: Colors.orange[200],
+        backgroundColor: Colors.teal[200],
         child: Icon(Icons.add),
       ),
     );
@@ -757,7 +765,7 @@ class _ChapterPageState extends State<ChapterPage> {
         ),
         content: TextField(
           controller: controller,
-          cursorColor: Colors.orangeAccent,
+          cursorColor: Colors.tealAccent,
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
             hintText: 'Enter chapter name',
@@ -766,7 +774,7 @@ class _ChapterPageState extends State<ChapterPage> {
               borderSide: BorderSide(color: Colors.white70),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.orangeAccent),
+              borderSide: BorderSide(color: Colors.tealAccent),
             ),
           ),
         ),
@@ -785,7 +793,7 @@ class _ChapterPageState extends State<ChapterPage> {
             },
             child: Text(
               'Add',
-              style: TextStyle(color: Colors.orangeAccent),
+              style: TextStyle(color: Colors.tealAccent),
             ),
           ),
         ],
@@ -865,11 +873,11 @@ class _ChapterPageState extends State<ChapterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey[900],
+      backgroundColor: Colors.teal[50],
       appBar: AppBar(
         backgroundColor: Colors.blueGrey[700],
-        title: Text('${widget.subjectName} - Chapters', style: TextStyle(color: Colors.orange[100])),
-        iconTheme: IconThemeData(color: Colors.orange[100]),
+        title: Text('${widget.subjectName} - Chapters', style: TextStyle(color: Colors.teal[100])),
+        iconTheme: IconThemeData(color: Colors.teal[100]),
         actions: isEditing
             ? [
           IconButton(
@@ -878,7 +886,7 @@ class _ChapterPageState extends State<ChapterPage> {
             color: selectedIndices.isNotEmpty ? Colors.orange[200] : Colors.orange[100]?.withOpacity(0.5),
           ),
           IconButton(
-            icon: Icon(Icons.close, color: Colors.orange[200]),
+            icon: Icon(Icons.close, color: Colors.teal[200]),
             onPressed: () {
               setState(() {
                 isEditing = false;
@@ -906,11 +914,11 @@ class _ChapterPageState extends State<ChapterPage> {
 
           return ListTile(
             tileColor: isEditing && selectedIndices.contains(index)
-                ? Colors.orange[100]?.withOpacity(0.2)
+                ? Colors.teal[100]?.withOpacity(0.2)
                 : null,
             leading: isEditing
                 ? Checkbox(
-              activeColor: Colors.orange[300],
+              activeColor: Colors.teal[300],
               checkColor: Colors.blueGrey[900],
               value: selectedIndices.contains(index),
               onChanged: (bool? value) {
@@ -926,11 +934,11 @@ class _ChapterPageState extends State<ChapterPage> {
                 : null,
             title: Text(
               chapters[index].name,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.blueGrey.shade900, fontWeight: FontWeight.bold),
             ),
             subtitle: Text(
               "Completion: ${(progress * 100).toStringAsFixed(1)}%", // Display progress
-              style: const TextStyle(color: Colors.white70),
+              style: const TextStyle(color: Colors.black38),
             ),
             trailing: CircularPercentIndicator(
               radius: 20.0,
@@ -938,9 +946,9 @@ class _ChapterPageState extends State<ChapterPage> {
               percent: progress,
               center: Text(
                 '${(progress * 100).toInt()}%',
-                style: TextStyle(color: Colors.orange[200], fontSize: 12),
+                style: TextStyle(color: Colors.tealAccent[700], fontSize: 12),
               ),
-              progressColor: Colors.orange[200],
+              progressColor: Colors.tealAccent[700],
             ),
             onTap: isEditing
                 ? () {
@@ -976,7 +984,7 @@ class _ChapterPageState extends State<ChapterPage> {
           : FloatingActionButton(
         onPressed: addChapter,
         foregroundColor: Colors.blueGrey[900],
-        backgroundColor: Colors.orange[200],
+        backgroundColor: Colors.teal[200],
         child: const Icon(Icons.add),
       ),
     );
@@ -1046,7 +1054,7 @@ class _TopicPageState extends State<TopicPage> {
         ),
         content: TextField(
           controller: controller,
-          cursorColor: Colors.orangeAccent,
+          cursorColor: Colors.tealAccent,
           style: TextStyle(color: Colors.white),
           decoration: InputDecoration(
             hintText: 'Enter topic name',
@@ -1055,7 +1063,7 @@ class _TopicPageState extends State<TopicPage> {
               borderSide: BorderSide(color: Colors.white54),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.orangeAccent),
+              borderSide: BorderSide(color: Colors.tealAccent),
             ),
           ),
         ),
@@ -1070,7 +1078,7 @@ class _TopicPageState extends State<TopicPage> {
             },
             child: Text(
               'Add',
-              style: TextStyle(color: Colors.orange[200]),
+              style: TextStyle(color: Colors.teal[200]),
             ),
           ),
         ],
@@ -1198,22 +1206,22 @@ class _TopicPageState extends State<TopicPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey[900],
+      backgroundColor: Colors.teal[50],
       appBar: AppBar(
         backgroundColor: Colors.blueGrey[700],
-        title: Text('${widget.chapterName} - Topics', style: TextStyle(color: Colors.orange[100])),
-        iconTheme: IconThemeData(color: Colors.orange[100]),
+        title: Text('${widget.chapterName} - Topics', style: TextStyle(color: Colors.teal[100])),
+        iconTheme: IconThemeData(color: Colors.teal[100]),
         actions: isEditing
             ? [
           IconButton(
             icon: Icon(Icons.delete),
             color: selectedIndices.isNotEmpty
-                ? Colors.orange[200]
-                : Colors.orange[100]?.withOpacity(0.5),
+                ? Colors.teal[200]
+                : Colors.teal[100]?.withOpacity(0.5),
             onPressed: selectedIndices.isNotEmpty ? deleteSelectedTopics : null,
           ),
           IconButton(
-            icon: Icon(Icons.close, color: Colors.orange[200]),
+            icon: Icon(Icons.close, color: Colors.teal[200]),
             onPressed: () {
               setState(() {
                 isEditing = false;
@@ -1243,13 +1251,14 @@ class _TopicPageState extends State<TopicPage> {
             leading: isEditing
                 ? Icon(
               isSelected ? Icons.check_box : Icons.check_box_outline_blank,
-              color: isSelected ? Colors.orange[200] : Colors.white70,
+              color: isSelected ? Colors.teal[200] : Colors.white70,
             )
                 : null,
             title: Text(
               topic.name,
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.blueGrey[900],
+                fontWeight: FontWeight.bold,
                 decoration: isEditing && isSelected ? TextDecoration.lineThrough : TextDecoration.none,
               ),
             ),
@@ -1257,11 +1266,11 @@ class _TopicPageState extends State<TopicPage> {
                 ? null
                 : SliderTheme(
               data: SliderTheme.of(context).copyWith(
-                activeTrackColor: Colors.orange[200],
-                inactiveTrackColor: Colors.orange[200]!.withOpacity(0.3),
-                thumbColor: Colors.orange[200],
-                overlayColor: Colors.orange[200]!.withOpacity(0.2),
-                valueIndicatorColor: Colors.orange[200],
+                activeTrackColor: Colors.teal[200],
+                inactiveTrackColor: Colors.teal[200]!.withOpacity(0.3),
+                thumbColor: Colors.teal[200],
+                overlayColor: Colors.teal[200]!.withOpacity(0.2),
+                valueIndicatorColor: Colors.teal[200],
                 valueIndicatorTextStyle: const TextStyle(color: Colors.black),
               ),
               child: Slider(
@@ -1281,7 +1290,7 @@ class _TopicPageState extends State<TopicPage> {
           : FloatingActionButton(
         onPressed: addTopic,
         foregroundColor: Colors.blueGrey[900],
-        backgroundColor: Colors.orange[200],
+        backgroundColor: Colors.teal[200],
         child: const Icon(Icons.add),
       ),
     );

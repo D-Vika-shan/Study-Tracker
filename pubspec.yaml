@@ -63,7 +63,7 @@ flutter_icons:
 flutter:
 
   assets:
-    - assets/bg.jpg
+    - assets/bg.png
     - assets/taskappicon.png
 
 
