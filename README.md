@@ -10,11 +10,12 @@ A Flutter application that allows users to manage tasks, subjects, chapters, and
 - **Progress Tracking**: Track completion progress of tasks and topics.
 - **Responsive UI**: A sleek and user-friendly interface built with Flutter.
 
-![Home Page](assets/screenshots/Home pg ss.png)
-![Side bar](assets/screenshots/Side bar ss.png)
-![Subjects Page](assets/screenshots/Subject pg ss.png)
-![Chapters Page](assets/screenshots/Chapter pg ss.png)
-![Topics Page](assets/screenshots/Topic pg ss.png)
+![Home Page](assets/screenshots/Home%20pg%20ss.png)
+![Side bar](assets/screenshots/Side%20bar%20ss.png)
+![Subjects Page](assets/screenshots/Subject%20pg%20ss.png)
+![Chapters Page](assets/screenshots/Chapter%20pg%20ss.png)
+![Topics Page](assets/screenshots/Topic%20pg%20ss.png)
+
 
 ## Technologies Used
 
