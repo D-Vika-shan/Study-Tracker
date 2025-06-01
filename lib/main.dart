@@ -180,10 +180,17 @@ class _TaskHomePageState extends State<TaskHomePage> {
     });
   }
 
-  // Add a new task
-  void _addTask() {
-    _controller.clear();
-    _selectedDate = null;
+  // Unified method for showing the task dialog
+  void _showTaskDialog({Task? task}) {
+    if (task != null) {
+      // If task is not null, we're editing
+      _controller.text = task.title; // Set the current title in the controller
+      _selectedDate = task.deadline; // Set the current deadline
+    } else {
+      // If task is null, we're adding a new task
+      _controller.clear();
+      _selectedDate = null;
+    }
 
     showDialog(
       context: context,
@@ -192,8 +199,8 @@ class _TaskHomePageState extends State<TaskHomePage> {
           builder: (context, setStateDialog) {
             return AlertDialog(
               backgroundColor: Colors.blueGrey[800],
-              title: const Text(
-                "Add Task",
+              title: Text(
+                task != null ? "Edit Task" : "Add Task",
                 style: TextStyle(color: Colors.white),
               ),
               content: Column(
@@ -223,7 +230,7 @@ class _TaskHomePageState extends State<TaskHomePage> {
                     onPressed: () async {
                       final picked = await showDatePicker(
                         context: context,
-                        initialDate: DateTime.now(),
+                        initialDate: task?.deadline ?? DateTime.now(),
                         firstDate: DateTime.now(),
                         lastDate: DateTime(2100),
                         builder: (context, child) {
@@ -267,15 +274,27 @@ class _TaskHomePageState extends State<TaskHomePage> {
                   ),
                   onPressed: () {
                     if (_controller.text.isNotEmpty && _selectedDate != null) {
-                      final newTask = Task(
-                        title: _controller.text,
-                        deadline: _selectedDate!,
-                      );
-                      _addTaskToFirestore(newTask); // Save task to Firestore
+                      if (task != null) {
+                        // If editing, update the existing task
+                        final updatedTask = Task(
+                          id: task.id, // Keep the same ID
+                          title: _controller.text,
+                          deadline: _selectedDate!,
+                          isDone: task.isDone, // Keep the same completion status
+                        );
+                        _updateTaskInFirestore(updatedTask); // Update task in Firestore
+                      } else {
+                        // If adding, create a new task
+                        final newTask = Task(
+                          title: _controller.text,
+                          deadline: _selectedDate!,
+                        );
+                        _addTaskToFirestore(newTask); // Save new task to Firestore
+                      }
                       Navigator.pop(context);
                     }
                   },
-                  child: const Text("Add"),
+                  child: Text(task != null ? "Save Changes" : "Add"),
                 ),
               ],
             );
@@ -283,6 +302,11 @@ class _TaskHomePageState extends State<TaskHomePage> {
         );
       },
     );
+  }
+
+  // Add a new task
+  void _addTask() {
+    _showTaskDialog();
   }
 
   // Save the task to Firestore
@@ -313,7 +337,14 @@ class _TaskHomePageState extends State<TaskHomePage> {
         .doc(userId)
         .collection('tasks')
         .doc(task.id) // Use the document ID
-        .update({'isDone': task.isDone}); // Update the task's isDone status
+        .update({
+          'title': task.title, // Update title
+          'deadline': Timestamp.fromDate(task.deadline), // Update deadline
+          'isDone': task.isDone,// Update the task's isDone status
+        });
+    _loadTasks();
+    print('Updating task: ${task.title}, Deadline: ${task.deadline}');
+
   }
 
   // Delete a task
@@ -404,6 +435,7 @@ class _TaskHomePageState extends State<TaskHomePage> {
                         onChanged: (value) => _toggleDone(task),
                         activeColor: Colors.teal[200], // Fill color when checked
                         checkColor: Colors.blueGrey[900], // Tick color
+
                       ),
                     ),
                     title: Text(
@@ -411,7 +443,7 @@ class _TaskHomePageState extends State<TaskHomePage> {
                       style: TextStyle(
                         color: Colors.white,
                         decoration: task.isDone ? TextDecoration.lineThrough : null,
-                        decorationColor: Colors.teal[200], // Strikethrough color
+                        decorationColor: Colors.blueGrey[800], // Strikethrough color
                         decorationThickness: 2, // Optional: makes the line bolder
                       ),
                     ),
@@ -419,14 +451,21 @@ class _TaskHomePageState extends State<TaskHomePage> {
                       "Deadline: ${DateFormat('dd MMM yyyy').format(task.deadline)}",
                       style: const TextStyle(color: Colors.white70),
                     ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete, color: Colors.red[300]),
-                      onPressed: () => _deleteTask(task),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min, // Ensure the row takes up only the necessary space
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.edit, color: Colors.blueGrey[800]), // Edit icon
+                          onPressed: () => _showTaskDialog(task: task), // Pass the task to edit
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.delete, color: Colors.red[300]), // Delete icon
+                          onPressed: () => _deleteTask(task), // Delete the task
+                        ),
+                      ],
                     ),
                   ),
-
                 );
-
               },
           ),
       ),
