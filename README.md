@@ -38,10 +38,6 @@ A Flutter application that allows users to manage tasks, subjects, chapters, and
 
 1. **Clone the repository**:
 
-   ```bash
-   git clone https://github.com/yourusername/task_management_app.git
-   cd task_management_app
-
 2. **Install dependencies**:
     ```bash
     flutter pub get
